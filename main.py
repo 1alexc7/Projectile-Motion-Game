@@ -43,17 +43,17 @@ pygame.display.set_caption('Projectile Motion Game')
 
 #store backgrounds in a list
 
-background = pygame.image.load(f'leveleditorbackgroundnew{level}.png').convert_alpha()
+background = pygame.image.load(f'Images/leveleditorbackgroundnew{level}.png').convert_alpha()
 
 
 img_list = [] #tile images
 for i in range(33):
-    img = pygame.image.load(f'{i+1}.png').convert_alpha()
+    img = pygame.image.load(f'Images/{i+1}.png').convert_alpha()
     img = pygame.transform.scale(img, (TILE_SIZE, TILE_SIZE))
     img_list.append(img)
 
-save_img = pygame.image.load('save.png').convert_alpha() #load and save button images
-load_img = pygame.image.load('load.png').convert_alpha()
+save_img = pygame.image.load('Images/save.png').convert_alpha() #load and save button images
+load_img = pygame.image.load('Images/load.png').convert_alpha()
 
 #create empty tile list
 world_data = []
@@ -134,7 +134,7 @@ while run == True:
     
     clock.tick(FPS)
 
-    background = pygame.image.load(f'leveleditorbackgroundnew{level}.png').convert_alpha()
+    background = pygame.image.load(f'Images/leveleditorbackgroundnew{level}.png').convert_alpha()
     draw_bg()
     draw_world()
     draw_ball()
