@@ -14,7 +14,7 @@ My goal was to create an engaging game that focused on helping classmates practi
 * __Projectile Motion Simulation__: The game simulates projectile motion by considering the user input.
 
 ## Why I built the project this way ##
-* I avoided implementing collision mechanics as the goal of the game was to help students practise projectile motion. Collision mechanics is not typically used with projectile motion in the HSC.
+* I avoided implementing collision mechanics as the goal of the game was to help students practise projectile motion. Collision mechanics are not typically used with projectile motion in the HSC.
 * I created maps to simulate different planets by changing the theme and gravity of each level (Level 1 is Earth, Level 2 is the Moon, Level 3 is Uranus) as the HSC sometimes asks students to calculate the range of the projectile if it was projected on a different planet.
 
 ## If I had more time I would change this ##
