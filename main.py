@@ -126,6 +126,23 @@ def find_angle(pos):
 golf_ball = ball(start[0], start[1], 5, WHITE)
 line = [(golf_ball.xb, golf_ball.yb), (golf_ball.xb, golf_ball.yb)]
 
+#https://stackoverflow.com/questions/63218889/why-doesnt-pygame-draw-in-the-window-before-the-delay-or-sleep
+def update_and_wait(delay):
+    pygame.display.flip()
+    pygame.event.pump()
+    pygame.time.delay(delay)
+
+def change_level(level):
+    global win, stroke
+    golf_ball.xb = start[0]
+    golf_ball.yb = start[1]
+    stroke = 0
+    win = 0
+    with open(f'level{level}_data.csv', newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter = ',')
+        for x, row in enumerate(reader):
+            for y, tile in enumerate(row):
+                world_data[x][y] = int(tile)   
 
 run = True
 while run == True:
@@ -161,7 +178,7 @@ while run == True:
     draw_text(f'Angle = {round(check_angle * 180 / math.pi, 2)} degrees', font, WHITE, 10, SCREEN_HEIGHT - 60)
     draw_text(f'Gravity = {g[level]} m/s/s', font, WHITE, 10, SCREEN_HEIGHT - 35)
     draw_text(f'Stroke: {stroke}', font, BLACK, 700, 30)
-
+    
     #stopping mechanic for ball
     if launch:
         if golf_ball.yb < 600  and 0 <= golf_ball.xb <= 800:
@@ -212,7 +229,11 @@ while run == True:
             if 600 < golf_ball.xb < 760 and golf_ball.yb > 480:
                 launch = False
                 golf_ball.yb = 480
-            if 760 < golf_ball.xb < 800 and golf_ball.yb > 400:
+            if 760 < golf_ball.xb < 800 and golf_ball.yb > 440:
+                launch = False
+                golf_ball.xb = 760
+                golf_ball.yb = 480      
+            if 760 < golf_ball.xb < 800 and 400 < golf_ball.yb < 440:
                 launch = False
                 golf_ball.yb = 400
                 if level == 1:
@@ -226,42 +247,27 @@ while run == True:
 
     
     #display text when target is hit
-    if win == 1:
+    if win == 1 and level < 3:
         draw_text(f'You won in {stroke} strokes! ', font, BLACK, SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 75)
-   
+        update_and_wait(1500)
+        level += 1
+        win = 0
+        change_level(level)
+    elif win == 1:
+        draw_text(f'You won in {stroke} strokes! ', font, BLACK, SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 75)
 
+            
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                #level += 1
-                if level < 3: #prevent crashing
-                    golf_ball.xb = start[0]
-                    golf_ball.yb = start[1]
-                    stroke = 0
-                    win = 0
+            if event.key == pygame.K_UP and level < 3: # level 3 is max level
                     level += 1
-                    with open(f'level{level}_data.csv', newline='') as csvfile:
-                        reader = csv.reader(csvfile, delimiter = ',')
-                        for x, row in enumerate(reader):
-                            for y, tile in enumerate(row):
-                                world_data[x][y] = int(tile)
-
-            if event.key == pygame.K_DOWN:
-                #level -= 1
-                golf_ball.xb = start[0]
-                golf_ball.yb = start[1]
-                stroke = 0
-                win = 0
-                if level > 0: #prevent crashing
+                    change_level(level)
+            if event.key == pygame.K_DOWN and level > 0:
                     level -= 1 
-                    with open(f'level{level}_data.csv', newline='') as csvfile:
-                        reader = csv.reader(csvfile, delimiter = ',')
-                        for x, row in enumerate(reader):
-                            for y, tile in enumerate(row):
-                                world_data[x][y] = int(tile)  
+                    change_level(level)
            
             if event.key == pygame.K_SPACE:
                 if launch == False:
