@@ -26,7 +26,7 @@ time = 0
 power = 0
 angle = 0
 launch = False
-start = [100, 400]
+start = [120, 400]
 g =[1, 9.8, 1.6, 8.9]
 stroke = 0
 win = 0
@@ -44,7 +44,6 @@ pygame.display.set_caption('Projectile Motion Game')
 #store backgrounds in a list
 
 background = pygame.image.load(f'Images/leveleditorbackgroundnew{level}.png').convert_alpha()
-
 
 img_list = [] #tile images
 for i in range(33):
@@ -77,7 +76,7 @@ def draw_world():
                 
 
 class ball(object):
-    def __init__(self, xb, yb, radius, color): #xb is x position of ball
+    def __init__(self, xb, yb, radius, color): #xb is the x position of the ball
         self.xb = xb
         self.yb = yb
         self.radius = radius
@@ -128,7 +127,6 @@ golf_ball = ball(start[0], start[1], 5, WHITE)
 line = [(golf_ball.xb, golf_ball.yb), (golf_ball.xb, golf_ball.yb)]
 
 
-
 run = True
 while run == True:
     
@@ -142,7 +140,7 @@ while run == True:
     draw_text(f'Level: {level}', font, BLACK, 10, 30)
     
 
-    #scale
+    #draw scale
     pygame.draw.line(screen, WHITE, (680, 520), (720, 520))
     pygame.draw.line(screen, WHITE, (680, 510), (680, 530))
     pygame.draw.line(screen, WHITE, (720, 510), (720, 530))
@@ -155,10 +153,9 @@ while run == True:
     
     line = [(golf_ball.xb, golf_ball.yb), pos]
     
-    #to display angle and velocity on screen for player
+    #display angle and velocity on screen for player
     check_angle = find_angle(pos)
     check_power = math.sqrt((line[1][1] - line[0][1])**2 + (line[1][0] - line[0][0])**2) / 8
-
     
     draw_text(f'Velocity = {round(check_power, 2)} m/s', font, WHITE, 10, SCREEN_HEIGHT - 85)
     draw_text(f'Angle = {round(check_angle * 180 / math.pi, 2)} degrees', font, WHITE, 10, SCREEN_HEIGHT - 60)
@@ -184,13 +181,10 @@ while run == True:
                 launch = False
                 golf_ball.yb = 520
             if 280 < golf_ball.xb < 320 and golf_ball.yb > 520:
+                launch = False
+                golf_ball.yb = 520
                 if level == 2:
-                    launch = False
                     win += 1
-                    golf_ball.yb = 520
-                else:
-                    launch = False
-                    golf_ball.yb = 520
             if 320 < golf_ball.xb < 360 and 400 < golf_ball.yb < 520:
                 launch = False
                 golf_ball.xb = 330
@@ -202,13 +196,10 @@ while run == True:
                 launch = False
                 golf_ball.yb = 360
             if 440 < golf_ball.xb < 480 and golf_ball.yb > 360:
+                launch = False
+                golf_ball.yb = 360
                 if level == 3:
-                    launch = False
                     win += 1
-                    golf_ball.yb = 360
-                else:
-                    launch = False
-                    golf_ball.yb = 360
             if 480 < golf_ball.xb < 520 and golf_ball.yb > 360:
                 launch = False
                 golf_ball.yb = 360
@@ -222,13 +213,10 @@ while run == True:
                 launch = False
                 golf_ball.yb = 480
             if 760 < golf_ball.xb < 800 and golf_ball.yb > 400:
+                launch = False
+                golf_ball.yb = 400
                 if level == 1:
-                    launch = False
                     win += 1
-                    golf_ball.yb = 400
-                else:
-                    launch = False
-                    golf_ball.yb = 400
       
         else:
             launch = False
@@ -240,7 +228,6 @@ while run == True:
     #display text when target is hit
     if win == 1:
         draw_text(f'You won in {stroke} strokes! ', font, BLACK, SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 75)
-   
    
 
     for event in pygame.event.get():
@@ -289,12 +276,10 @@ while run == True:
                     stroke += 1
                     win = 0
                     
-    
     #testing
     #print(pos) 
     #print(line)
     #print(check_power)
-    
    
     pygame.display.update()
 pygame.quit()
